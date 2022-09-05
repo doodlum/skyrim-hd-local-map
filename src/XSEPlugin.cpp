@@ -38,8 +38,8 @@ struct Hooks
 	{
 		logger::info("Installing Hooks");
 		stl::write_thunk_call<BSShaderRenderTargets_Create_MAIN>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x3F0, 0x3F3));
-		stl::write_thunk_call<BSShaderRenderTargets_Create_LOCALMAP>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x516, 0x57D));
-		stl::write_thunk_call<BSShaderRenderTargets_Create_LOCALMAPSWAP>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x529, 0x593));
+		stl::write_thunk_call<BSShaderRenderTargets_Create_LOCALMAP>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x57E, 0x57D));
+		stl::write_thunk_call<BSShaderRenderTargets_Create_LOCALMAPSWAP>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x594, 0x593));
 	}
 };
 
