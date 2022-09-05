@@ -7,6 +7,7 @@ struct Hooks
 	{
 		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, std::uintptr_t Properties)
 		{
+			logger::info("Storing main render target information");
 			MainProperties = Properties;
 			func(BSShaderRenderTargets, TargetIndex, Properties);
 		}
@@ -17,6 +18,7 @@ struct Hooks
 	{
 		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] std::uintptr_t Properties)
 		{
+			logger::info("Patching LOCAL_MAP");
 			func(BSShaderRenderTargets, TargetIndex, MainProperties);
 		}
 		static inline REL::Relocation<decltype(thunk)> func;
@@ -26,6 +28,7 @@ struct Hooks
 	{
 		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] std::uintptr_t Properties)
 		{
+			logger::info("Patching LOCAL_MAP_SWAP");
 			func(BSShaderRenderTargets, TargetIndex, MainProperties);
 		}
 		static inline REL::Relocation<decltype(thunk)> func;
@@ -33,6 +36,7 @@ struct Hooks
 
 	static void Install()
 	{
+		logger::info("Installing Hooks");
 		stl::write_thunk_call<BSShaderRenderTargets_Create_MAIN>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x3F0, 0x3F3));
 		stl::write_thunk_call<BSShaderRenderTargets_Create_LOCALMAP>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x516, 0x57D));
 		stl::write_thunk_call<BSShaderRenderTargets_Create_LOCALMAPSWAP>(REL::RelocationID(100458, 107175).address() + REL::Relocate(0x529, 0x593));
