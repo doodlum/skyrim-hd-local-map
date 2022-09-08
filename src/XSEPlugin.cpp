@@ -1,11 +1,11 @@
 
-std::uintptr_t MainProperties;
+INT64 MainProperties;
 
 struct Hooks
 {
 	struct BSShaderRenderTargets_Create_MAIN
 	{
-		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, std::uintptr_t Properties)
+		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, INT64 Properties)
 		{
 			logger::info("Storing main render target information");
 			MainProperties = Properties;
@@ -16,7 +16,7 @@ struct Hooks
 
 	struct BSShaderRenderTargets_Create_LOCALMAP
 	{
-		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] std::uintptr_t Properties)
+		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] INT64 Properties)
 		{
 			logger::info("Patching LOCAL_MAP");
 			func(BSShaderRenderTargets, TargetIndex, MainProperties);
@@ -26,7 +26,7 @@ struct Hooks
 
 	struct BSShaderRenderTargets_Create_LOCALMAPSWAP
 	{
-		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] std::uintptr_t Properties)
+		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] INT64 Properties)
 		{
 			logger::info("Patching LOCAL_MAP_SWAP");
 			func(BSShaderRenderTargets, TargetIndex, MainProperties);
