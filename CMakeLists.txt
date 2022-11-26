@@ -8,7 +8,6 @@ project(
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(XSEPlugin)
-
 target_include_directories(
 	"${PROJECT_NAME}"
 	PUBLIC
