@@ -1,11 +1,11 @@
 
-std::int64_t MainProperties;
+RE::BSGraphics::RenderTargetProperties* MainProperties;
 
 struct Hooks
 {
 	struct BSShaderRenderTargets_Create_MAIN
 	{
-		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, std::int64_t Properties)
+		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, RE::BSGraphics::RenderTargetProperties* Properties)
 		{
 			logger::info("Storing main render target information");
 			MainProperties = Properties;
@@ -16,20 +16,28 @@ struct Hooks
 
 	struct BSShaderRenderTargets_Create_LOCALMAP
 	{
-		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] std::int64_t Properties)
+		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, RE::BSGraphics::RenderTargetProperties* Properties)
 		{
 			logger::info("Patching LOCAL_MAP");
-			func(BSShaderRenderTargets, TargetIndex, MainProperties);
+
+			Properties->width = MainProperties->width;
+			Properties->height = MainProperties->height;
+
+			func(BSShaderRenderTargets, TargetIndex, Properties);
 		}
 		static inline REL::Relocation<decltype(thunk)> func;
 	};
 
 	struct BSShaderRenderTargets_Create_LOCALMAPSWAP
 	{
-		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, [[maybe_unused]] std::int64_t Properties)
+		static void thunk(void* BSShaderRenderTargets, uint32_t TargetIndex, RE::BSGraphics::RenderTargetProperties* Properties)
 		{
 			logger::info("Patching LOCAL_MAP_SWAP");
-			func(BSShaderRenderTargets, TargetIndex, MainProperties);
+
+			Properties->width = MainProperties->width;
+			Properties->height = MainProperties->height;
+
+			func(BSShaderRenderTargets, TargetIndex, Properties);
 		}
 		static inline REL::Relocation<decltype(thunk)> func;
 	};
